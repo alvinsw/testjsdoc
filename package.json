@@ -5,12 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "doc": "jsdoc -c jsdoc.json"
+    "build-docs": "jsdoc -c jsdoc.json"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bent": "^7.3.12",
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "clean-jsdoc-theme": "^3.3.2",
+    "jsdoc": "^3.6.10"
   }
 }
