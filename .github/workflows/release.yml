@@ -22,19 +22,22 @@ jobs:
         id: create_tag
       - run: echo ${{ steps.create_tag.outputs.tagname }}
       - run: echo ${{ steps.create_tag.outputs.version }}
-      - name: check if a new tag is created
+      - name: Check if a new tag is created
         run: "[[ '${{ steps.create_tag.outputs.tagname }}' ]]"
       - name: get major-minor version
         id: docver
         run: echo "DOCVER=${TAGNAME%.*}" >> $GITHUB_ENV 
         env:
           TAGNAME: ${{ steps.create_tag.outputs.tagname }}
-        # uses: actions/github-script@v6
-        # with:
-        #   result-encoding: string
-        #   script: var s = process.env.TAGNAME; return s.slice(0, s.lastIndexOf('.'))
+      - run: npm ci
+      - run: npm run build-docs
       - run: echo "$DOCVER"
-      - run: echo npm ci
+      - name: Deploy docs to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs
+          target-folder: ${{ env.DOCVER }}
+          single-commit: true
       - name: Publish package on NPM
         run: echo npm publish
         env:

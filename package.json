@@ -1,6 +1,6 @@
 {
   "name": "lang",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Test package",
   "main": "index.js",
   "scripts": {
