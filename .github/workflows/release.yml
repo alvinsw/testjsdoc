@@ -39,6 +39,6 @@ jobs:
           target-folder: docs/${{ env.DOCVER }}
           single-commit: true
       - name: Publish package on NPM
-        run: echo npm publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
