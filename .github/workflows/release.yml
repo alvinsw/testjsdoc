@@ -37,7 +37,6 @@ jobs:
           folder: docs
           target-folder: docs/${{ env.DOCVER }}
           single-commit: true
-      - run: cat ~/.npmrc
       - name: Publish package on NPM
         run: npm publish --access public
         env:
