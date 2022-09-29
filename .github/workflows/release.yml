@@ -11,15 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - id: create_tag
-        uses: jaywcjlove/create-tag-action@v1.3.10
+      - uses: Klemensas/action-autotag@stable
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - run: echo ${{ steps.create_tag.outputs }}
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          tag_prefix: "v"
+        id: create_tag
+      - run: echo ${{ steps.create_tag.outputs.tagname }}
+      - run: echo ${{ steps.create_tag.outputs.version }}
       - if: steps.create_tag.outputs.successful
         run: echo test
       - run: echo npm ci
