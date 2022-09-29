@@ -23,7 +23,7 @@ jobs:
       - run: echo ${{ steps.create_tag.outputs.tagname }}
       - run: echo ${{ steps.create_tag.outputs.version }}
       - name: check if a new tag is created
-        run: "[[ ! ${{ steps.create_tag.outputs.tagname }} ]] && exit 1"
+        run: "[[ ! '${{ steps.create_tag.outputs.tagname }}' ]] && exit 1"
       - name: get major-minor version
         uses: actions/github-script@v6
         id: docver
