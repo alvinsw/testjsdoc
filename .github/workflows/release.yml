@@ -19,6 +19,7 @@ jobs:
         uses: jaywcjlove/create-tag-action@main
         with:
           package-path: ./package.json
+          message: "test"
       - run: echo ${{ steps.create_tag.outputs }}
       - if: steps.create_tag.outputs.successful
         run: echo test
