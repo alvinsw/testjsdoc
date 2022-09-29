@@ -10,7 +10,7 @@
   },
   "opts": {
     "recurse": true,
-    "destination": "./jsdoc/",
+    "destination": "./docs/",
     "readme": "./readme.md"
   }
 }
