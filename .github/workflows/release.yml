@@ -7,9 +7,11 @@ on:
     branches: [master, main]
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -21,8 +23,8 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           tag_prefix: "v"
         id: create_tag
-      - run: echo ${{ steps.create_tag.outputs.tagname }}
-      - run: echo ${{ steps.create_tag.outputs.version }}
+      # - run: echo ${{ steps.create_tag.outputs.tagname }}
+      # - run: echo ${{ steps.create_tag.outputs.version }}
       - name: Check if a new tag is created
         run: "[[ '${{ steps.create_tag.outputs.tagname }}' ]]"
       - name: get major-minor version
@@ -32,15 +34,11 @@ jobs:
           TAGNAME: ${{ steps.create_tag.outputs.tagname }}
       - run: npm ci
       - run: npm run build-docs
-      - run: ls ./
       - name: Deploy docs to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs
           target-folder: docs/${{ env.DOCVER }}
           single-commit: true
-      - run: ls ./
       - name: Publish package on NPM
         run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
