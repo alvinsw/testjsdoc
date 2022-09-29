@@ -15,15 +15,24 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - uses: Klemensas/action-autotag@stable
+      - uses: ButlerLogic/action-autotag@1.1.1
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           tag_prefix: "v"
         id: create_tag
       - run: echo ${{ steps.create_tag.outputs.tagname }}
       - run: echo ${{ steps.create_tag.outputs.version }}
-      - if: steps.create_tag.outputs.successful
-        run: echo test
+      - name: check if a new tag is created
+        run: "[[ ! ${{ steps.create_tag.outputs.tagname }} ]] && exit 1"
+      - name: get major-minor version
+        uses: actions/github-script@v6
+        id: docver
+        env:
+          TAGNAME: ${{ steps.create_tag.outputs.tagname }}
+        with:
+          result-encoding: string
+          script: var s = process.env.TAGNAME; return s.slice(0, s.lastIndexOf('.'))
+      - run: echo "${{steps.docver.outputs.result}}"
       - run: echo npm ci
       - name: Publish package on NPM
         run: echo npm publish
