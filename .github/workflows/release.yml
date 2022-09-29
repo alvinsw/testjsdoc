@@ -36,7 +36,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs
-          target-folder: ${{ env.DOCVER }}
+          target-folder: docs/${{ env.DOCVER }}
           single-commit: true
       - name: Publish package on NPM
         run: echo npm publish

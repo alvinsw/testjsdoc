@@ -1,6 +1,6 @@
 {
-  "name": "lang",
-  "version": "1.0.5",
+  "name": "test-npm-publish-0001",
+  "version": "1.0.6",
   "description": "Test package",
   "main": "index.js",
   "scripts": {
