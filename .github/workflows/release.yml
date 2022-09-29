@@ -1,0 +1,27 @@
+name: Release
+
+on: 
+  workflow_run:
+    workflows: [Run Tests]
+    types: [completed]
+    branches: [master, main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - id: create_tag
+        uses: jaywcjlove/create-tag-action@main
+      - run: echo ${{ steps.create_tag.outputs }}
+      - if: steps.create_tag.outputs.successful
+        run: echo test
+      - run: echo npm ci
+      - name: Publish package on NPM
+        run: echo npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
