@@ -17,6 +17,8 @@ jobs:
           node-version: 18
       - id: create_tag
         uses: jaywcjlove/create-tag-action@main
+        with:
+          package-path: ./package.json
       - run: echo ${{ steps.create_tag.outputs }}
       - if: steps.create_tag.outputs.successful
         run: echo test
