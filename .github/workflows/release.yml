@@ -34,11 +34,15 @@ jobs:
           TAGNAME: ${{ steps.create_tag.outputs.tagname }}
       - run: npm ci
       - run: npm run build-docs
+      - run: mkdir _docs && mv docs _docs/${{ env.DOCVER }} && mv _docs docs
+      - run: |
+          echo $'---\nlayout: redirect\ntarget: ./${{steps.latest_ver.outputs.result}}\n---' > docs/index.md      
       - name: Deploy docs to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs
           target-folder: docs/${{ env.DOCVER }}
           single-commit: true
+          clean: false
       - name: Publish package on NPM
         run: npm publish --access public
