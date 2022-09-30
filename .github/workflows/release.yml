@@ -36,7 +36,9 @@ jobs:
       - run: npm run build-docs
       - run: mkdir _docs && mv docs _docs/${{ env.DOCVER }} && mv _docs docs
       - run: |
-          echo $'---\nlayout: redirect\ntarget: ./${{steps.latest_ver.outputs.result}}\n---' > docs/index.md      
+          echo $'---\nlayout: redirect\ntarget: ./${{ env.DOCVER }}\n---' > docs/index.md
+      - run: ls docs
+      - run: cat docs/index.md
       - name: Deploy docs to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
