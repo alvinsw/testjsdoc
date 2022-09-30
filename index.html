@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>API Documentation</title>
+    <script src="scripts/prettify/prettify.js"> </script>
+</head>
+<body>
+<div id="header">
+  <label for="versions">Version:</label>
+  <select name="versions" id="versions">
+  </select>
+</div>
+<iframe id="content"></iframe>
+
+<script> 
+function loadFrame() {
+  document.getElementById('content').src = 'v1.0';
+}
+loadFrame();
+async function getDirs() {
+  const response = await fetch('https://api.github.com/repos/alvinsw/testjsdoc/contents/docs?ref=gh-pages');
+  if (response.ok) {
+    let dirs = (await response.json()).filter(e => e.name.startsWith('v'));
+    let versions = dirs.map(e => e.name.slice(1));
+    console.log(dirs);
+    let select = document.getElementById('versions');
+    for (const v of versions) {
+      //let opt = document.createElement("option");
+      //opt.value = 'v' + v;
+      //opt.innerHTML = element; // whatever property it has
+      select.appendChild(new Option('v' + v, 'v' + v));
+    }
+  }
+}
+getDirs();
+</script>
+</body>
+</html>
