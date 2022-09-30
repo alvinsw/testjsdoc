@@ -43,7 +43,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs
-          target-folder: docs/${{ env.DOCVER }}
+          target-folder: docs
           single-commit: true
           clean: false
       - name: Publish package on NPM
